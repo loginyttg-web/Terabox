@@ -159,7 +159,7 @@ function welcomeMessage(firstName: string, uploadEnabled: boolean): string {
     "📚 Commands dekhne ke liye /help dabao",
     "🆔 Apna ID dekhne ke liye /id",
     "",
-    "⚡ <i>Powered by Railway • Fast • Secure • No Ads</i>",
+    "⚡ <i>Cloud Hosted • Fast • Secure • No Ads</i>",
   ]
     .filter(Boolean)
     .join("\n");
@@ -218,10 +218,10 @@ function aboutMessage(): string {
   return [
     "ℹ️ <b>About TeraBox Pro Bot</b>",
     "",
-    "🚀 <b>Version:</b> 3.0 Pro (Railway Edition)",
+    "🚀 <b>Version:</b> 3.0 Pro (Cloud Edition)",
     "👨‍💻 <b>Built for:</b> Fast, reliable TeraBox resolving",
     "⚡ <b>Tech:</b> Node.js 22 + SQLite + MTProto",
-    "🌍 <b>Uptime:</b> 24/7 on Railway",
+    "🌍 <b>Uptime:</b> Cloud deployment ready",
     "",
     "🔥 <b>What makes us different?</b>",
     "• No ads, no spam, no tracking",
@@ -282,7 +282,7 @@ function featuresMessage(): string {
     "• Dump channel for tracking",
     "",
     "🚀 <b>Deployment:</b>",
-    "• One-click Railway deploy",
+    "• Railway + Heroku deployment",
     "• Docker ready",
     "• Health check at /health",
   ].join("\n");

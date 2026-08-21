@@ -199,7 +199,7 @@ pre.log{margin:0;background:#0d1117;padding:14px;max-height:380px;overflow:auto;
 @media(max-width:600px){.grid{grid-template-columns:1fr 1fr}table{font-size:12px}th,td{padding:8px}}
 </style></head><body><main>
 <div class="header">
-<h1>🚀 TeraBox Pro <span>RAILWAY EDITION v3.0</span></h1>
+<h1>🚀 TeraBox Pro <span>CLOUD EDITION v3.0</span></h1>
 <div><span class="badge" id="live">● Live</span> <span class="badge" id="time">--:--:--</span></div>
 </div>
 <p class="sub" id="sub">Connecting to real-time stream…</p>
@@ -224,7 +224,7 @@ pre.log{margin:0;background:#0d1117;padding:14px;max-height:380px;overflow:auto;
 <pre class="log" id="logs">Loading…</pre>
 
 <div class="footer">
-🚀 TeraBox Pro Bot • Railway Deploy • Made with ❤️ • <a href="/health">/health</a> • <a href="/api/docs">/api/docs</a><br>
+🚀 TeraBox Pro Bot • Cloud Deploy • Made with ❤️ • <a href="/health">/health</a> • <a href="/api/docs">/api/docs</a><br>
 <span class="badge">60+ domains supported • Parallel chunks • Auto ZIP split</span>
 </div>
 
@@ -277,7 +277,7 @@ async function refresh(){
     document.getElementById("cDisk").textContent=t.disk?fmtBytes(t.disk.available_bytes):"—";
     document.getElementById("cDone").textContent=t.totals?.completed??0;
     document.getElementById("cFail").textContent=t.totals?.failed??0;
-    document.getElementById("sub").textContent="Live • Updated "+new Date(d.generated_at).toLocaleTimeString()+" • Railway • Cache "+d.cache_items+" items";
+    document.getElementById("sub").textContent="Live • Updated "+new Date(d.generated_at).toLocaleTimeString()+" • Cloud • Cache "+d.cache_items+" items";
     document.getElementById("time").textContent=new Date().toLocaleTimeString();
     jobsHtml(t); eventsHtml(t.recent_events||[]);
     const lr=await fetch("/admin/logs?token="+token,{cache:"no-store"});
@@ -307,7 +307,7 @@ pre{background:#161b22;padding:16px;border-radius:10px;overflow:auto;border:1px 
 a{color:#58a6ff}
 </style></head><body><main>
 <h1>🚀 TeraBox Pro API — Documentation</h1>
-<p><span class="tag">v3.0 Railway Edition</span> • Fast • 60+ domains • No auth required for /api</p>
+<p><span class="tag">v3.0 Cloud Edition</span> • Fast • 60+ domains • No auth required for /api</p>
 
 <h2>📡 Endpoints</h2>
 
@@ -347,7 +347,7 @@ a{color:#58a6ff}
 
 <div class="card">
 <h3>GET /health</h3>
-<p>Health check + bot status + cache info. Use for Railway healthcheck & uptime monitors.</p>
+<p>Health check + bot status + cache info. Use for platform health checks and uptime monitors.</p>
 <pre>{
   "status": "ok",
   "cache_items": 42,
@@ -374,9 +374,9 @@ a{color:#58a6ff}
 <li>/id, /help, /about, /features, /ping</li>
 </ul>
 
-<h2>🚀 Railway Deploy</h2>
+<h2>🚀 Cloud Deploy</h2>
 <pre>1. Fork this repo
-2. Railway.app → New Project → Deploy from GitHub
+2. Choose Railway or use the repository’s Deploy to Heroku button
 3. Add env vars:
    TERABOX_COOKIES_JSON={"ndus":"..."}
    TELEGRAM_BOT_TOKEN=...
@@ -385,7 +385,7 @@ a{color:#58a6ff}
 4. Deploy! Health check path: /health
 </pre>
 
-<p style="margin-top:32px;color:#8b949e;text-align:center">Made with ❤️ for TeraBox users • Railway • No ads • Open source</p>
+<p style="margin-top:32px;color:#8b949e;text-align:center">Made with ❤️ for TeraBox users • Cloud ready • No ads • Open source</p>
 </main></body></html>`;
 }
 
@@ -405,7 +405,7 @@ h1{font-size:36px;margin:0 0 8px;background:linear-gradient(90deg,#3fb950,#58a6f
 code{background:#0d1117;padding:2px 6px;border-radius:6px;border:1px solid #21262d}
 </style></head><body><main>
 <h1>🚀 TeraBox Pro</h1>
-<p class="sub">Ultra Fast TeraBox Resolver • 60+ Domains • Telegram Bot • Railway Ready</p>
+<p class="sub">Ultra Fast TeraBox Resolver • 60+ Domains • Telegram Bot • Cloud Ready</p>
 
 <div class="grid">
 <div class="stat"><div class="n">60+</div><div class="l">Domains Supported</div></div>
@@ -437,11 +437,11 @@ code{background:#0d1117;padding:2px 6px;border-radius:6px;border:1px solid #2126
 <li>Parallel chunk download (16x faster) + ZIP split for >2GB</li>
 <li>Live admin dashboard with SSE real-time</li>
 <li>Rate limiting, caching, secure cookie management</li>
-<li>One-click Railway deploy + Docker ready</li>
+<li>Railway + Heroku deploys + Docker ready</li>
 </ul>
 </div>
 
-<p style="color:#8b949e;font-size:13px;margin-top:24px">Made with ❤️ • Railway Edition v3.0 • No ads • Open source • <a href="https://github.com/loginyttg-web/Terabox" style="color:#58a6ff">GitHub</a></p>
+<p style="color:#8b949e;font-size:13px;margin-top:24px">Made with ❤️ • Cloud Edition v3.0 • No ads • Open source • <a href="https://github.com/loginyttg-web/Terabox" style="color:#58a6ff">GitHub</a></p>
 </main></body></html>`;
 }
 
@@ -543,7 +543,7 @@ async function handleRequest(request: IncomingMessage, response: ServerResponse,
   if (url.pathname === "/health" || url.pathname === "/healthz") {
     writeJson(response, config, 200, {
       status: "ok",
-      version: "3.0-railway",
+      version: "3.0-cloud",
       cache_items: resolver.cacheSize,
       telegram: telegramBot ? telegramBot.getStatus() : { enabled: false },
       transfers: transferManager ? transferManager.getStatus() : { enabled: false },

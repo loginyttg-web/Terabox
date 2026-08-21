@@ -1,0 +1,29 @@
+# Heroku container image for the repository's nested Node.js application.
+# Keep this file at the repository root: Heroku builds with the repository root
+# as its Docker context.
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+COPY terabox-project/package.json terabox-project/package-lock.json ./
+RUN npm ci --ignore-scripts
+COPY terabox-project/tsconfig.json ./
+COPY terabox-project/src ./src
+RUN npm run build
+
+FROM node:22-alpine AS runner
+
+WORKDIR /app
+ENV NODE_ENV=production \
+    HOST=0.0.0.0
+
+# `zip` is required only when oversized Telegram uploads are split. Installing it
+# here keeps TELEGRAM_UPLOAD_ENABLED=true functional on Heroku as well.
+RUN apk add --no-cache zip
+COPY terabox-project/package.json terabox-project/package-lock.json ./
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
+COPY --from=builder /app/dist ./dist
+RUN mkdir -p /tmp/terabox-transfers && chmod 700 /tmp/terabox-transfers
+
+# Heroku injects PORT at runtime. The application already reads it and binds to
+# HOST, so PORT must not be hard-coded in this image.
+CMD ["node", "dist/index.js"]

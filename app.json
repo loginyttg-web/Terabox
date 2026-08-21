@@ -1,0 +1,66 @@
+{
+  "name": "TeraBox Pro Bot",
+  "description": "TeraBox link resolver, API and Telegram bot with optional Telegram uploads.",
+  "repository": "https://github.com/loginyttg-web/Terabox",
+  "keywords": [
+    "terabox",
+    "telegram-bot",
+    "nodejs",
+    "api"
+  ],
+  "stack": "container",
+  "env": {
+    "TERABOX_COOKIES_JSON": {
+      "description": "TeraBox cookies as one JSON object. The ndus cookie is the most important. Example: {\"ndus\":\"...\",\"browserid\":\"...\"}",
+      "required": true
+    },
+    "TELEGRAM_BOT_TOKEN": {
+      "description": "Optional Telegram bot token from @BotFather. Leave empty to run only the web resolver/API.",
+      "required": false
+    },
+    "TELEGRAM_OWNER_ID": {
+      "description": "Your numeric Telegram user ID. Required when a private Telegram bot is enabled.",
+      "required": false
+    },
+    "TELEGRAM_ALLOWED_USER_IDS": {
+      "description": "Optional comma-separated numeric Telegram user IDs allowed to use the bot.",
+      "required": false
+    },
+    "TELEGRAM_ALLOW_PUBLIC": {
+      "description": "Set true to let everyone use the Telegram bot. Keep false for a private bot.",
+      "value": "false"
+    },
+    "TELEGRAM_DEST_CHANNEL_ID": {
+      "description": "Optional negative destination channel ID for user tracking and content copies. The bot must be an admin there.",
+      "required": false
+    },
+    "TELEGRAM_UPLOAD_ENABLED": {
+      "description": "Enable TeraBox-to-Telegram file transfers. Heroku disk is ephemeral and capacity-limited, so false is recommended initially.",
+      "value": "false"
+    },
+    "TELEGRAM_API_ID": {
+      "description": "Optional API ID from my.telegram.org; required only when Telegram uploads are enabled.",
+      "required": false
+    },
+    "TELEGRAM_API_HASH": {
+      "description": "Optional API hash from my.telegram.org; required only when Telegram uploads are enabled.",
+      "required": false
+    },
+    "ADMIN_API_KEY": {
+      "description": "Generated secret for the /admin dashboard.",
+      "generator": "secret"
+    },
+    "HOST": {
+      "description": "Network interface used by the web server.",
+      "value": "0.0.0.0"
+    },
+    "CACHE_TTL_SECONDS": {
+      "description": "Resolved-link cache lifetime in seconds.",
+      "value": "7200"
+    },
+    "CACHE_MAX_ITEMS": {
+      "description": "Maximum number of resolved links held in memory.",
+      "value": "1000"
+    }
+  }
+}

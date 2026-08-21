@@ -1,6 +1,8 @@
-# 🚂 Deployment Guide — Railway (Primary) + Render
+# 🚀 Deployment Guide — Railway, Heroku, Render, and Docker
 
-## Railway — Recommended (No Sleep, Good Disk)
+> **Heroku:** This repository now includes a root-level `app.json`, `heroku.yml`, and `Dockerfile.heroku` because the application is nested in `terabox-project/`. See [`../HEROKU.md`](../HEROKU.md) for the complete one-click, GitHub integration, CLI, config-var, and troubleshooting guide. Existing Railway deployment behavior is unchanged.
+
+## Railway — Recommended for Large Uploads (Persistent Volume Support)
 
 ### Why Railway?
 - No sleep (unlike Render free)

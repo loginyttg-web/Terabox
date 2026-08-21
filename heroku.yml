@@ -1,0 +1,8 @@
+# Heroku Git/container deployment definition.
+# The app lives in terabox-project/, so the Heroku-specific Dockerfile at the
+# repository root builds it with the correct Docker context.
+build:
+  docker:
+    web: Dockerfile.heroku
+run:
+  web: node dist/index.js
