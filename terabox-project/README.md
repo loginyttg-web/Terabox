@@ -2,7 +2,11 @@
 
 Ultra fast TeraBox resolver with **premium Telegram UI**, **60+ domains**, **parallel downloads**, **Railway ready**. No ads, no spam, production-grade.
 
-![Node](https://img.shields.io/badge/Node-22+-green) ![Railway](https://img.shields.io/badge/Deploy-Railway-blueviolet) ![Telegram](https://img.shields.io/badge/Telegram-Bot-blue)
+![Node](https://img.shields.io/badge/Node-22+-green) ![Railway](https://img.shields.io/badge/Deploy-Railway-blueviolet) ![Heroku](https://img.shields.io/badge/Deploy-Heroku-79589F) ![Telegram](https://img.shields.io/badge/Telegram-Bot-blue)
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/loginyttg-web/Terabox/tree/main)
+
+> Heroku support uses the root-level container configuration because this application is in a subdirectory. See [`../HEROKU.md`](../HEROKU.md) for the full setup. Railway configuration remains unchanged.
 
 ---
 
