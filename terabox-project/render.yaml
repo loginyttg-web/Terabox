@@ -1,0 +1,67 @@
+# Render Blueprint — TeraBox Telegram Bot + API (Free Web Service)
+# Deploy: Render.com -> "New" -> "Blueprint" -> point at this repo, or
+# use "New Web Service" with the settings below.
+#
+# IMPORTANT: This is a WEB SERVICE, not a background worker. Transfer uploads
+# (TELEGRAM_UPLOAD_ENABLED) are best left OFF on a free web service because it
+# sleeps when idle and has a small ephemeral disk. The API + Telegram link
+# resolver work perfectly on the free plan.
+services:
+  - type: web
+    name: tera3withinternalapi
+    runtime: node
+    plan: free
+    rootDir: terabox-project
+    buildCommand: npm install && npm run build
+    startCommand: node dist/index.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: HOST
+        value: 0.0.0.0
+      # TeraBox cookies (JSON string) — REQUIRED for reliable link resolution.
+      # Set in the Render dashboard -> Environment.
+      # - key: TERABOX_COOKIES_JSON
+      #   sync: false
+      #
+      # Telegram bot (optional). Only the resolver is used if left unset.
+      # - key: TELEGRAM_BOT_TOKEN
+      #   sync: false
+      # - key: TELEGRAM_ALLOWED_USER_IDS
+      #   sync: false
+      # - key: TELEGRAM_API_ID
+      #   sync: false
+      # - key: TELEGRAM_API_HASH
+      #   sync: false
+      #
+      # Bot OWNER id (required for /access /revoke /users):
+      # - key: TELEGRAM_OWNER_ID
+      #   sync: false
+      #
+      # Dump / destination channel (user tracking + content copy):
+      # - key: TELEGRAM_DEST_CHANNEL_ID
+      #   sync: false
+      #
+      # Optional admin dashboard key (at least 16 chars). /admin endpoint.
+      # - key: ADMIN_API_KEY
+      #   sync: false
+      #
+      # Set to true ONLY if you actually want file uploads to Telegram from
+      # this free web service (not recommended on the free plan).
+      # - key: TELEGRAM_UPLOAD_ENABLED
+      #   value: "false"
+      #
+      # When uploads are enabled, >2GB files are split into ZIP parts:
+      # - key: TRANSFER_UPLOAD_LIMIT_MB
+      #   value: "1900"
+      # - key: TRANSFER_SPLIT_PART_MB
+      #   value: "1800"
+      #
+      # Optional in-app keep-alive (works only while already awake). Use an
+      # EXTERNAL uptime monitor (UptimeRobot/Cronitor) to actually wake a
+      # sleeping free service:
+      # - key: KEEPALIVE_URLS
+      #   value: "https://YOUR-APP.onrender.com/health"
+      # - key: KEEPALIVE_INTERVAL_SECONDS
+      #   value: "600"
