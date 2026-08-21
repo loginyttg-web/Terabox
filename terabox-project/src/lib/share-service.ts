@@ -14,14 +14,18 @@ export interface ScannedFile {
   isFolder: boolean;
 }
 
+export interface ResolveOptions {
+  pwd?: string;
+}
+
 /** Maximum folder depth and item count a single recursive scan will follow. */
-const MAX_SCAN_DEPTH = 12;
-const MAX_SCAN_ITEMS = 5_000;
+const MAX_SCAN_DEPTH = 15;
+const MAX_SCAN_ITEMS = 10_000;
 
 export interface ShareResolver {
-  resolve(surl: string, directory?: string): Promise<CachedValue<ResolvedShare>>;
+  resolve(surl: string, directory?: string, opts?: ResolveOptions): Promise<CachedValue<ResolvedShare>>;
   /** Recursively walk every sub-folder and return all files (and folders). */
-  scanAll(surl: string, startDirectory?: string): Promise<ScannedFile[]>;
+  scanAll(surl: string, startDirectory?: string, opts?: ResolveOptions): Promise<ScannedFile[]>;
   /** Replace the TeraBox cookies at runtime (Telegram /setcookie). */
   setCookies?(cookies: Record<string, string>): void;
   getCookieNames?(): string[];
@@ -54,8 +58,6 @@ export class CachedShareService implements ShareResolver {
 
   setCookies(cookies: Record<string, string>): void {
     this.client.setCookies(cookies);
-    // Cached shares were resolved with the old cookies; drop them so the next
-    // request re-resolves with the fresh cookie set.
     this.cache.clear();
   }
 
@@ -63,13 +65,16 @@ export class CachedShareService implements ShareResolver {
     return this.client.getCookieNames();
   }
 
-  resolve(surl: string, directory?: string): Promise<CachedValue<ResolvedShare>> {
+  resolve(surl: string, directory?: string, opts?: ResolveOptions): Promise<CachedValue<ResolvedShare>> {
     const normalizedDirectory = directory?.trim() || "";
-    const cacheKey = `${surl}\u0000${normalizedDirectory}`;
-    return this.cache.getOrLoad(cacheKey, () => this.client.resolve(surl, normalizedDirectory || undefined));
+    const pwdKey = opts?.pwd ? `|pwd:${opts.pwd}` : "";
+    const cacheKey = `${surl}\u0000${normalizedDirectory}${pwdKey}`;
+    return this.cache.getOrLoad(cacheKey, () =>
+      this.client.resolve(surl, normalizedDirectory || undefined, opts),
+    );
   }
 
-  async scanAll(surl: string, startDirectory?: string): Promise<ScannedFile[]> {
+  async scanAll(surl: string, startDirectory?: string, opts?: ResolveOptions): Promise<ScannedFile[]> {
     const results: ScannedFile[] = [];
     const seen = new Set<string>();
     let itemCount = 0;
@@ -84,7 +89,7 @@ export class CachedShareService implements ShareResolver {
       }
       seen.add(dirKey);
 
-      const { value: share } = await this.resolve(surl, directory);
+      const { value: share } = await this.resolve(surl, directory, opts);
       for (const file of share.files) {
         itemCount += 1;
         if (itemCount > MAX_SCAN_ITEMS) {
